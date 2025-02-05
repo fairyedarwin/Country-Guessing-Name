@@ -1,32 +1,30 @@
 import random
 import countries
-name = input("Hello there. What is your name?")
-print("Hello ",name,". Welcome to Guess the country game. All you have to do is guess the country in 12 attempts! Good luck!")
-country = random.choice(countries.countries)
+name = input("Hi there. Welcome to the game! May I know your name please?")
+print("Hello ",name,". All you have to do is guess the country in 10 attempts! Good luck!")
+country = random.choice(countries.countries).lower()
 print("Guess the country's name")
 guesses = ''
-turns = 12
+turns = 10
+guessed = "_"*len(country)
+usr_guess=""
 while turns > 0:
-    failed_guesses = 0
-    for char in country:
-        if char in guesses:
-            print(char, end=" ")
-        else:
-            print("_")
-            failed_guesses+=1
-    if failed_guesses == 0:
-        print("you win!")
-        print("the country is:",country)
+    guess = input(f"Guess the country:{guessed}")
+    guessed= ""
+    if guess in country:
+        for char in country:
+            if char == guess or char in usr_guess:
+                guessed+=char
+                usr_guess +=char
+            else:
+                guessed+="_"
+        print("You guessed right!")
+    else:
+        print("Oops.. Try again. You have ",turns,"more attempts")
+    turns -=1
+    if guessed == country:
+        print("You won, the country is indeed",country)
         break
-    guess = input("guess the country:")
-    guesses += guess
-    if guess not in country:
-        turns -= 1
-        print("Oops! your guess was wrong! The country is",country)
-        print("you have",turns,"left")
-
-        if turns == 0:
-            print("Sorry! you were not able to guess the country. Better luck next time.")
-
-
-
+    if turns == 0 and guessed != country:
+        print("You lose. The country is ",country,". Better luck next time.")
+        break
